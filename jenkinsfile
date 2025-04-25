@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')  // Store in Jenkins Credentials
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        AWS_DEFAULT_REGION = 'us-east-1'  // Change as needed
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key')  // Store in Jenkins Credentials
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+        AWS_DEFAULT_REGION = 'us-west-1'  // Change as needed
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-repo/your-project.git'
+                git branch: 'main', url: 'https://github.com/pgakr992/Music.git'
             }
         }
 
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Script') {
             steps {
-                sh 'python3 s3_csv_reader.py'  // Your script filename
+                sh 'python.py'  // Your script filename
             }
         }
     }
