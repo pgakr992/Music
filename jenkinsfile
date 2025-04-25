@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')  // Store in Jenkins Credentials
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION = 'us-east-1'  // Change as needed
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-repo/your-project.git'
+            }
+        }
+
+        stage('Set up Python') {
+            steps {
+                sh 'python3 -m pip install --upgrade pip'
+                sh 'pip install boto3'
+            }
+        }
+
+        stage('Run Script') {
+            steps {
+                sh 'python3 s3_csv_reader.py'  // Your script filename
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+    }
+}
